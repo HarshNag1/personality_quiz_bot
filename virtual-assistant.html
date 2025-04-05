@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Assistant</title>
+    <link rel="stylesheet" href="virtual-assistant.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.module.js",
+            "three/examples/jsm/loaders/GLTFLoader.js": "https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/loaders/GLTFLoader.js",
+            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.132.2/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+    <script type="module">
+        import ModelViewer from './model-viewer.js';
+        import LipSyncAnalyzer from './lip-sync.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize model viewer
+            const modelViewer = new ModelViewer('model-container');
+
+            // Initialize lip sync analyzer
+            const lipSync = new LipSyncAnalyzer(modelViewer);
+
+            // Initialize voice controls
+            const startButton = document.getElementById('startVoice');
+            const stopButton = document.getElementById('stopVoice');
+
+            startButton.addEventListener('click', () => {
+                lipSync.startListening();
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            });
+
+            stopButton.addEventListener('click', () => {
+                lipSync.stopListening();
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            });
+
+            // Initial greeting
+            setTimeout(() => {
+                lipSync.speak("Hello! I'm your virtual assistant. How can I help you today?");
+            }, 1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Quiz</span>
+        </a>
+        <div class="assistant-content">
+            <div class="assistant-model">
+                <div id="model-container" class="model-container"></div>
+                <div class="audio-wave">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="status-text">Click 'Start Speaking' to begin the conversation</div>
+            </div>
+            <div class="conversation-area">
+                <div class="speech-bubble">
+                    <p id="current-speech">Hello! I'm your virtual assistant. How can I help you today?</p>
+                </div>
+                <div class="voice-controls">
+                    <button id="startVoice" class="voice-button primary">
+                        <i class="fas fa-microphone"></i> Start Speaking
+                    </button>
+                    <button id="stopVoice" class="voice-button secondary" disabled>
+                        <i class="fas fa-stop"></i> Stop Speaking
+                    </button>
+                </div>
+                <div class="transcript-container">
+                    <h3>Conversation History</h3>
+                    <div id="transcript" class="transcript"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
