@@ -6,7 +6,6 @@ A web-based AI personality assessment tool that analyzes your responses to provi
 
 - Interactive chat interface for natural conversation
 - AI-powered personality analysis based on your responses
-- Dark/light mode toggle for comfortable viewing
 - Professional background animations
 - Multilingual support (English and Hindi)
 - Fast response times and smooth animations
